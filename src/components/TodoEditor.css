@@ -30,3 +30,9 @@
   color: white;
   border-radius: 5px;
 }
+
+.errorMsg {
+  color: red;
+  font-size: 14px;
+  font-weight: 600;
+}
