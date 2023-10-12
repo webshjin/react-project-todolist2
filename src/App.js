@@ -47,7 +47,7 @@ function App() {
         <TodoEditor onCreate={onCreate} />
       </div>
       <div>
-        <TodoList />
+        <TodoList todos={todos} /> {/* props으로 todos를 내려줌 */}
       </div>
     </div>
   );

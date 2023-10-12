@@ -1,16 +1,34 @@
-import React from 'react';
+import React, { useState } from 'react';
 import './TodoList.css';
 import TodoItem from './TodoItem';
 
-const TodoList = () => {
+const TodoList = ({ todos }) => {
+  const [searchWord, setSearchWord] = useState('');
+
+  const onChangeSearch = (e) => {
+    setSearchWord(e.target.value);
+  };
+
+  const getSearchResult = () => {
+    return searchWord === ''
+      ? todos
+      : todos.filter((todo) => todo.content.includes(searchWord));
+  };
+
   return (
     <div className="TodoList">
       <h4>해야 할 일들</h4>
-      <input type="text" placeholder="검색할 할일..." className="searchBar" />
+      <input
+        type="text"
+        placeholder="검색할 할일..."
+        className="searchBar"
+        onChange={onChangeSearch}
+        value={searchWord}
+      />
       <div className="list_wrapper">
-        <TodoItem />
-        <TodoItem />
-        <TodoItem />
+        {getSearchResult().map((todo) => (
+          <TodoItem key={todo.id} {...todo} />
+        ))}
       </div>
     </div>
   );
