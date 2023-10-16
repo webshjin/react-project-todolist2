@@ -1,9 +1,9 @@
 import React, { useContext } from 'react';
 import './TodoItem.css';
-import { TodoContext } from '../App';
+import { TodoContext, TodoDispatchContext } from '../App';
 
 const TodoItem = ({ id, isDone, content, createdDate }) => {
-  const { onUpdate, onDelete } = useContext(TodoContext);
+  const { onUpdate, onDelete } = useContext(TodoDispatchContext);
   console.log(`${id}번의 TodoItem 업데이트 된다`);
   const onChangeCheckBox = () => {
     onUpdate(id); // 수정된 TodoItem 객체를 확인하기 위해 id를 매개변수로 보낸다.

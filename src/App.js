@@ -1,10 +1,4 @@
-import {
-  createContext,
-  useCallback,
-  useReducer,
-  useRef,
-  useState,
-} from 'react';
+import { createContext, useCallback, useMemo, useReducer, useRef } from 'react';
 import './App.css';
 import Header from './components/Header';
 import TodoEditor from './components/TodoEditor';
@@ -26,7 +20,8 @@ const mockupTodos = [
   },
 ];
 
-export const TodoContext = createContext(); // context 객체 생성
+export const TodoStateContext = createContext(); // context 객체 생성 (todos를 위한)
+export const TodoDispatchContext = createContext(); // context 객체 생성 (dispatch함수들을 위한)
 
 // state : 상태변화될데이터(State), 여기에서는 todos
 // action : State를 어떻게 변화 시킬 것이냐(dispatch()로부터 넘겨져온 매개변수(객체)를 받음)
@@ -86,20 +81,20 @@ function App() {
     });
   }, []);
 
+  const memoizedDispatches = useMemo(
+    () => ({ onCreate, onUpdate, onDelete }),
+    [],
+  );
+
   return (
     <div className="App">
       <Header />
-      <TodoContext.Provider
-        value={{
-          todos,
-          onCreate,
-          onUpdate,
-          onDelete,
-        }}
-      >
-        <TodoEditor />
-        <TodoList />
-      </TodoContext.Provider>
+      <TodoStateContext.Provider value={{ todos }}>
+        <TodoDispatchContext.Provider value={memoizedDispatches}>
+          <TodoEditor />
+          <TodoList />
+        </TodoDispatchContext.Provider>
+      </TodoStateContext.Provider>
     </div>
   );
 }
